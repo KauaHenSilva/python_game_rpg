@@ -1,57 +1,16 @@
-from abc import ABC, abstractmethod
-from enum import Enum
 from random import randint
 from typing import Union
 
-from src.skills.ABC_skill import Skill, TypeSkill
+from src.skills.ABC_skill import Skill
 from src.status import Status
 
+from src.Class import Class
 
-class Inimigo(ABC):
 
-    __slots__ = ['_name', '_level', '_descricao', '_hpMax',
-                 '_mpMax', '_stMax', '_hpAtual', '_mpAtual', '_stAtual', '_status', '_xp', '_skills']
+class EnemyClass(Class):
 
     def __init__(self, nameClass, level, descricao) -> None:
-        self._status: Status = Status.ALIVE
-        self._name: str = nameClass
-        self._level: int = level
-        self._descricao: str = descricao
-
-        self._xp: int = 10
-        self._hpMax: int = 100
-        self._mpMax: int = 50
-        self._stMax: int = 50
-
-        self._hpRegen: int = 5
-        self._mpRegen: int = 5
-        self._stRegen: int = 5
-
-        self._skills = []
-
-        self._hpAtual: int = self._hpMax
-        self._mpAtual: int = self._mpMax
-        self._stAtual: int = self._stMax
-
-    @abstractmethod
-    def damage_taken(self, damage, typeDamage):
-        pass
-
-    @abstractmethod
-    def skill_cast(self, skill) -> tuple[int, Union[TypeSkill, None]]:
-        pass
-
-    @abstractmethod
-    def setStats(self):
-        pass
-
-    @abstractmethod
-    def life_get(self, life_get):
-        pass
-
-    @abstractmethod
-    def next_turn(self):
-        pass
+        super().__init__(nameClass, level, descricao)
 
     def skill_list_disponivel(self) -> list[Skill]:
         skills_disponiveis = []
@@ -71,37 +30,37 @@ class Inimigo(ABC):
 
         skillCast = skill_possivel[randint(0, len(skill_possivel) - 1)]
         return skillCast
-    
+
     @property
     def hpRegen(self):
         return self._hpRegen
-    
+
     @hpRegen.setter
     def hpRegen(self, value):
         if not isinstance(value, int):
             raise ValueError("HP Regen deve ser um inteiro")
-        
+
         if value < 0:
             print("HP Regen não pode ser negativo")
             return
-        
+
         self._hpRegen = value
-    
+
     @property
     def mpRegen(self):
         return self._mpRegen
-    
+
     @mpRegen.setter
     def mpRegen(self, value):
         if not isinstance(value, int):
             raise ValueError("MP Regen deve ser um inteiro")
-        
+
         if value < 0:
             print("MP Regen não pode ser negativo")
             return
-        
+
         self._mpRegen = value
-    
+
     @property
     def stRegen(self):
         return self._stRegen

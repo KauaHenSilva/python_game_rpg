@@ -2,17 +2,20 @@
 
 from src.utils import separador
 from .turn_player import TurnPlayer
-from .turn_enemy import TurnInimigo
+from .turn_enemy import TurnEnemy
 from src.PlayerClass import PlayerClass
-from src.enemys import Inimigo
+from src.enemysClass import EnemyClass
 
 
 class TurnAll():
+
+    __slots__ = ['_player', '_enemy', '_turnPlayer', '_turnInimigo']
+
     def __init__(self, player, enemy, turnPlayer, turnInimigo) -> None:
         self._player = player
         self._enemy = enemy
         self._turnPlayer: TurnPlayer = turnPlayer
-        self._turnInimigo: TurnInimigo = turnInimigo
+        self._turnInimigo: TurnEnemy = turnInimigo
 
     def show_stats(self):
         text = (
@@ -53,11 +56,11 @@ class TurnAll():
         self._player = player
 
     @property
-    def enemy(self) -> Inimigo:
+    def enemy(self) -> EnemyClass:
         return self._enemy
 
     @enemy.setter
-    def enemy(self, enemy: Inimigo):
+    def enemy(self, enemy: EnemyClass):
         self._enemy = enemy
 
     @property
@@ -65,5 +68,5 @@ class TurnAll():
         return self._turnPlayer
 
     @property
-    def turnInimigo(self) -> TurnInimigo:
+    def turnInimigo(self) -> TurnEnemy:
         return self._turnInimigo

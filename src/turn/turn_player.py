@@ -1,23 +1,22 @@
 from typing import Optional
 from random import randint
 
-from src.enemys import Inimigo
+from src.enemysClass import EnemyClass
 
 from .ABC_turn import Turn
 
 from src.skills import Skill, DamageSkill, HealingSkill
 from src.PlayerClass import PlayerClass
-from src.enemys import SkeletonMageEnemy
+from src.enemysClass import SkeletonMageEnemyClass
 from src.utils import getIntUser, separador, pause
 from src.status import Status
 
 
 class TurnPlayer(Turn):
-    def __init__(self) -> None:
-        super().__init__()
-        self._qtdeTurn = 0
+    def __init__(self, player: PlayerClass, enemy: EnemyClass) -> None:
+        super().__init__(player, enemy)
 
-    def turn(self, player: PlayerClass, enemy: Inimigo) -> tuple[PlayerClass, Inimigo]:
+    def turn(self, player: PlayerClass, enemy: EnemyClass) -> tuple[PlayerClass, EnemyClass]:
         self.player = player
         self.enemy = enemy
 
@@ -93,6 +92,6 @@ class TurnPlayer(Turn):
         pause()
 
     def setInimigo(self, relatorio: str):
-        self.enemy = SkeletonMageEnemy(randint(1, self.player.level))
+        self.enemy = SkeletonMageEnemyClass(randint(1, self.player.level))
         relatorio += "Um novo inimigo apareceu\n"
         relatorio += f"{self.enemy}\n"

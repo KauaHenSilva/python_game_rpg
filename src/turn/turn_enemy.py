@@ -5,17 +5,17 @@ from .ABC_turn import Turn
 
 from src.skills import Skill, DamageSkill, HealingSkill, TypeSkill
 from src.PlayerClass import PlayerClass
-from src.enemys import Inimigo, SkeletonMageEnemy
+from src.enemysClass import EnemyClass, SkeletonMageEnemyClass
 from src.utils import separador, pause
 from src.status import Status
 
 
-class TurnInimigo(Turn):
-    def __init__(self) -> None:
-        super().__init__()
-        self._qtdeTurn = 0
+class TurnEnemy(Turn):
+    def __init__(self, player: PlayerClass, enemy: EnemyClass) -> None:
+        super().__init__(player, enemy)
+        
 
-    def turn(self, player: PlayerClass, enemy: Inimigo) -> tuple[PlayerClass, Inimigo]:
+    def turn(self, player: PlayerClass, enemy: EnemyClass) -> tuple[PlayerClass, EnemyClass]:
         self.player = player
         self.enemy = enemy
 
@@ -53,7 +53,7 @@ class TurnInimigo(Turn):
             relatorio += f"Vida do inimigo após a cura: {self.enemy.hpAtual}\n"
 
         self.end_turn(relatorio)
-        
+
         return self.player, self.enemy
 
     def skill_select(self) -> Optional[Skill]:
@@ -90,7 +90,7 @@ class TurnInimigo(Turn):
         print(relatorio)
         pause()
 
-    def statusDoGame(self, relatorio: str):
-        self.enemy = SkeletonMageEnemy(randint(1, self.player.level))
+    def setInimigo(self, relatorio: str):
+        self.enemy = SkeletonMageEnemyClass(randint(1, self.player.level))
         relatorio += "Um novo inimigo apareceu\n"
         relatorio += f"{self.enemy}\n"

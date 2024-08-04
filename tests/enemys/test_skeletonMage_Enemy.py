@@ -1,12 +1,12 @@
 import unittest
 
-from src.enemys import SkeletonMageEnemy, ABC_Enemys
+from src.enemysClass import SkeletonMageEnemyClass
 from src.skills.ABC_skill import TypeSkill
 
 
 class TestSkeletonMageEnemy(unittest.TestCase):
     def setUp(self):
-        self.enemys = [SkeletonMageEnemy(x) for x in range(1, 6)]
+        self.enemys = [SkeletonMageEnemyClass(x) for x in range(1, 6)]
 
     def test_damage_taken_magico(self):
         damage = 20

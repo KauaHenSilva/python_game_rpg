@@ -1,96 +1,48 @@
-from abc import ABC, abstractmethod
-from typing import Union
-
-from src.skills import Skill, TypeSkill
+from src.skills import Skill
 from src.status import Status
+from src.Class import Class
 
 
-class PlayerClass(ABC):
-
-    __slots__ = ['_nameClass', '_level', '_descrisao', '_hpMax', '_mpMax',
-                 '_stMax', '_xp', '_points', '_hpAtual', '_mpAtual', '_stAtual', '_skills', '_status']
+class PlayerClass(Class):
 
     def __init__(self, nameClass, level, descrisao) -> None:
-        self._status = Status.ALIVE
-        self._nameClass = nameClass
-        self._descrisao = descrisao
-        
-        self._xp: int = 0
-        
-        self._hpMax: int = 100
-        self._mpMax: int = 100
-        self._stMax: int = 100
-        
-        self._hpAtual: int
-        self._mpAtual: int
-        self._stAtual: int
-        
-        self._hpRegen: int = 5
-        self._mpRegen: int = 5
-        self._stRegen: int = 5
-        
-        self._level = level
-        self._xp = 0
-        self._points = 0
-        self._skills = []
+        super().__init__(nameClass, level, descrisao)
 
-    @abstractmethod
-    def setStats(self):
-        pass
-
-    @abstractmethod
-    def life_get(self, life_get):
-        pass
-
-    @abstractmethod
-    def damage_taken(self, damage, typeSkill: TypeSkill):
-        pass
-
-
-    @abstractmethod
-    def skill_cast(self, skill) -> tuple[int, TypeSkill]:
-        pass
-    
-    
-    @abstractmethod
-    def next_turn(self):
-        pass
-    
-    @property
+    @ property
     def hpRegen(self):
         return self._hpRegen
-    
-    @hpRegen.setter
+
+    @ hpRegen.setter
     def hpRegen(self, value):
         if not isinstance(value, int):
             raise ValueError("HP Regen deve ser um inteiro")
-        
+
         if value < 0:
             print("HP Regen não pode ser negativo")
             return
-        
+
         self._hpRegen = value
-    
-    @property
+
+    @ property
     def mpRegen(self):
         return self._mpRegen
-    
-    @mpRegen.setter
+
+    @ mpRegen.setter
     def mpRegen(self, value):
         if not isinstance(value, int):
             raise ValueError("MP Regen deve ser um inteiro")
-        
+
         if value < 0:
             print("MP Regen não pode ser negativo")
             return
-        
+
         self._mpRegen = value
-    
-    @property
+
+    @ property
     def stRegen(self):
         return self._stRegen
 
-    @stRegen.setter
+    @ stRegen.setter
     def stRegen(self, value):
         if not isinstance(value, int):
             raise ValueError("ST Regen deve ser um inteiro")
@@ -100,30 +52,30 @@ class PlayerClass(ABC):
             return
 
         self._stRegen = value
-    
+
     def skill_list_disponivel(self) -> list[Skill]:
         skills_disponiveis = []
         for skill in self.skills:
             if skill.costMP <= self.mpAtual and skill.costST <= self.stAtual:
                 skills_disponiveis.append(skill)
         return skills_disponiveis
-    
-    @property
+
+    @ property
     def status(self):
         return self._status
 
-    @status.setter
+    @ status.setter
     def status(self, value):
         if not isinstance(value, Status):
             raise ValueError("Status deve ser um Status")
 
         self._status = value
 
-    @property
+    @ property
     def skills(self) -> list[Skill]:
         return self._skills
 
-    @skills.setter
+    @ skills.setter
     def skills(self, value):
         if not isinstance(value, list):
             raise ValueError("Skills deve ser uma lista de Skills")
@@ -151,11 +103,11 @@ class PlayerClass(ABC):
 
         self.points -= points
 
-    @property
-    def nameClass(self):
-        return self._nameClass
+    @ property
+    def name(self):
+        return self._name
 
-    @nameClass.setter
+    @name.setter
     def nameClass(self, value):
         if not isinstance(value, str):
             raise ValueError("Nome deve ser uma string")
@@ -164,13 +116,13 @@ class PlayerClass(ABC):
             print("Nome deve ter pelo menos 3 caracteres")
             return
 
-        self._nameClass = value
+        self._name = value
 
-    @property
+    @ property
     def descrisao(self):
         return self._descrisao
 
-    @descrisao.setter
+    @ descrisao.setter
     def descrisao(self, value):
         if not isinstance(value, str):
             raise ValueError("Descrição deve ser uma string")
@@ -181,22 +133,22 @@ class PlayerClass(ABC):
 
         self._descrisao = value
 
-    @property
+    @ property
     def hpMax(self):
         return self._hpMax
 
-    @hpMax.setter
+    @ hpMax.setter
     def hpMax(self, value):
         if not isinstance(value, int):
             raise ValueError("HP deve ser um inteiro")
 
         self._hpMax = value
 
-    @property
+    @ property
     def mpMax(self):
         return self._mpMax
 
-    @mpMax.setter
+    @ mpMax.setter
     def mpMax(self, value):
         if not isinstance(value, int):
             raise ValueError("MP deve ser um inteiro")
@@ -207,11 +159,11 @@ class PlayerClass(ABC):
 
         self._mpMax = value
 
-    @property
+    @ property
     def stMax(self):
         return self._stMax
 
-    @stMax.setter
+    @ stMax.setter
     def stMax(self, value):
         if not isinstance(value, int):
             raise ValueError("ST deve ser um inteiro")
@@ -222,13 +174,13 @@ class PlayerClass(ABC):
 
         self._stMax = value
 
-    @property
+    @ property
     def xp(self):
         return self._xp
 
-    @xp.setter
+    @ xp.setter
     def xp(self, value):
-        
+
         if not isinstance(value, int):
             raise ValueError("XP deve ser um inteiro")
 
@@ -239,7 +191,7 @@ class PlayerClass(ABC):
         if value < 0:
             print("A quantidade de xp ganha não deve ser negativa")
             return
-        
+
         if self.level == 5:
             return
 
@@ -251,22 +203,22 @@ class PlayerClass(ABC):
 
         self._xp = value
 
-    @property
+    @ property
     def points(self):
         return self._points
 
-    @points.setter
+    @ points.setter
     def points(self, value):
         if not isinstance(value, int):
             raise ValueError("Points deve ser um inteiro")
 
         self._points = value
 
-    @property
+    @ property
     def level(self):
         return self._level
 
-    @level.setter
+    @ level.setter
     def level(self, value):
         if not isinstance(value, int):
             raise ValueError("Nivel deve ser um inteiro")
@@ -285,11 +237,11 @@ class PlayerClass(ABC):
 
         self._level = value
 
-    @property
+    @ property
     def hpAtual(self):
         return self._hpAtual
 
-    @hpAtual.setter
+    @ hpAtual.setter
     def hpAtual(self, value):
         if not isinstance(value, int):
             raise ValueError("HP deve ser um inteiro")
@@ -305,11 +257,11 @@ class PlayerClass(ABC):
 
         self._hpAtual = value
 
-    @property
+    @ property
     def mpAtual(self):
         return self._mpAtual
 
-    @mpAtual.setter
+    @ mpAtual.setter
     def mpAtual(self, value):
         if not isinstance(value, int):
             raise ValueError("MP deve ser um inteiro")
@@ -325,11 +277,11 @@ class PlayerClass(ABC):
 
         self._mpAtual = value
 
-    @property
+    @ property
     def stAtual(self):
         return self._stAtual
 
-    @stAtual.setter
+    @ stAtual.setter
     def stAtual(self, value):
         if not isinstance(value, int):
             raise ValueError("ST deve ser um inteiro")

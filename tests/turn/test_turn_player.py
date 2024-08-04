@@ -3,7 +3,7 @@ from unittest.mock import patch
 from src.turn.turn_player import TurnPlayer
 from src.skills import DamageSkill, HealingSkill, TypeSkill, FireSkill, HealSkill
 from src.PlayerClass import PlayerClass, MagoPlayerClass
-from src.enemys import Inimigo, SkeletonMageEnemy
+from src.enemysClass import Inimigo, SkeletonMageEnemy
 from src.status import Status
 
 

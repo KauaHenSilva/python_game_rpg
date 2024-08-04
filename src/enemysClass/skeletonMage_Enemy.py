@@ -2,11 +2,11 @@ from random import randint
 from typing import Union
 from src.skills.ABC_skill import HealingSkill, Skill, DamageSkill
 from src.skills.fire_skill import FireSkill
-from .ABC_Enemys import Inimigo
+from .ABC_EnemysClass import EnemyClass
 from src.skills.ABC_skill import TypeSkill
 
 
-class SkeletonMageEnemy(Inimigo):
+class SkeletonMageEnemyClass(EnemyClass):
     def __init__(self, level):
         super().__init__('Skeleton', level, 'A skeleton that will')
         self.setStats()
