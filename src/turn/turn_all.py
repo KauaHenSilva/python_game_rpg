@@ -3,19 +3,23 @@
 from src.utils import separador
 from .turn_player import TurnPlayer
 from .turn_enemy import TurnInimigo
+from src.PlayerClass import PlayerClass
+from src.enemys import Inimigo
 
 
 class TurnAll():
-    def __init__(self, turnPlayer: TurnPlayer, turnInimigo: TurnInimigo) -> None:
-        self.turnPlayer = turnPlayer
-        self.turnInimigo = turnInimigo
+    def __init__(self, player, enemy, turnPlayer, turnInimigo) -> None:
+        self._player = player
+        self._enemy = enemy
+        self._turnPlayer: TurnPlayer = turnPlayer
+        self._turnInimigo: TurnInimigo = turnInimigo
 
     def show_stats(self):
         text = (
             f"\n{separador}\n"
             f"Status dos personagens:\n\n"
-            f"Player: \n{self.turnPlayer.player}\n"
-            f"Enemy: \n{self.turnInimigo.enemy}\n"
+            f"Player: {self.player}\n"
+            f"Enemy: {self.enemy}\n"
             f"{separador}"
         )
         print(text)
@@ -31,3 +35,35 @@ class TurnAll():
         print("Finalizando turno do inimigo")
         print(f"{separador}", end='')
         self.turnInimigo.enemy.next_turn()
+
+    def turn_player(self):
+        resp = self.turnPlayer.turn(player=self.player, enemy=self.enemy)
+        self.player, self.enemy = resp
+
+    def turn_enemy(self):
+        resp = self.turnInimigo.turn(player=self.player, enemy=self.enemy)
+        self.player, self.enemy = resp
+
+    @property
+    def player(self) -> PlayerClass:
+        return self._player
+
+    @player.setter
+    def player(self, player: PlayerClass):
+        self._player = player
+
+    @property
+    def enemy(self) -> Inimigo:
+        return self._enemy
+
+    @enemy.setter
+    def enemy(self, enemy: Inimigo):
+        self._enemy = enemy
+
+    @property
+    def turnPlayer(self) -> TurnPlayer:
+        return self._turnPlayer
+
+    @property
+    def turnInimigo(self) -> TurnInimigo:
+        return self._turnInimigo

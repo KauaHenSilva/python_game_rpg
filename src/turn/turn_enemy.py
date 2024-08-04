@@ -11,33 +11,17 @@ from src.status import Status
 
 
 class TurnInimigo(Turn):
-    def __init__(self, player, enemy) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self._player: PlayerClass = player
-        self._enemy: Inimigo = enemy
         self._qtdeTurn = 0
 
-    def skill_select(self) -> Optional[Skill]:
-        if not self.enemy.skill_list_disponivel():
-            print("O inimigo não pode usar skill")
-            return None
+    def turn(self, player: PlayerClass, enemy: Inimigo) -> tuple[PlayerClass, Inimigo]:
+        self.player = player
+        self.enemy = enemy
 
-        print("Skills disponíveis:")
-        print(f"{separador}")
-
-        for idx, skill in enumerate(self.enemy.skill_list_disponivel()):
-            print(f"Essa skill tem o id: {idx}")
-            print(f"{skill}")
-
-        print(f"{separador}")
-
-        skill = self.enemy.skill_select()
-        return skill
-
-    def turn(self):
         print("Turno do Inimigo\n")
         print(f"{separador}\n")
-        
+
         relatorio: str = 'Relatório:\n\n'
 
         skill = self.skill_select()
@@ -58,7 +42,6 @@ class TurnInimigo(Turn):
             )
             self.player.damage_taken(damage, typeSkill)
             relatorio += f"Vida do player após o dano: {self.player.hpAtual}\n"
-            
 
         elif isinstance(skill, HealingSkill):
             heal, typeSkill = self.enemy.skill_cast(skill)
@@ -70,6 +53,25 @@ class TurnInimigo(Turn):
             relatorio += f"Vida do inimigo após a cura: {self.enemy.hpAtual}\n"
 
         self.end_turn(relatorio)
+        
+        return self.player, self.enemy
+
+    def skill_select(self) -> Optional[Skill]:
+        if not self.enemy.skill_list_disponivel():
+            print("O inimigo não pode usar skill")
+            return None
+
+        print("Skills disponíveis:")
+        print(f"{separador}")
+
+        for idx, skill in enumerate(self.enemy.skill_list_disponivel()):
+            print(f"Essa skill tem o id: {idx}")
+            print(f"{skill}")
+
+        print(f"{separador}")
+
+        skill = self.enemy.skill_select()
+        return skill
 
     def end_turn(self, relatorio: str) -> None:
         relatorio += f'\n{separador}\n'
@@ -92,8 +94,3 @@ class TurnInimigo(Turn):
         self.enemy = SkeletonMageEnemy(randint(1, self.player.level))
         relatorio += "Um novo inimigo apareceu\n"
         relatorio += f"{self.enemy}\n"
-
-
-
-
-

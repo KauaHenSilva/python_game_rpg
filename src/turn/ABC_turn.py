@@ -11,21 +11,9 @@ class Turn(ABC):
         super().__init__()
 
     @abstractmethod
-    def turn(self):
+    def turn(self, player: PlayerClass, enemy: Inimigo) -> tuple[PlayerClass, Inimigo]:
         pass
-    
+
     @abstractmethod
     def skill_select(self) -> tuple[int, Optional[Skill]]:
         pass
-    
-    @property
-    def player(self) -> PlayerClass:
-        return self._player
-    
-    @property
-    def enemy(self) -> Inimigo:
-        return self._enemy
-    
-    @enemy.setter
-    def enemy(self, enemy):
-        self._enemy = enemy
