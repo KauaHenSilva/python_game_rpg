@@ -1,22 +1,20 @@
 from typing import Optional
 from random import randint
 
-from src.enemysClass import EnemyClass
 
 from .ABC_turn import Turn
 
 from src.skills import Skill, DamageSkill, HealingSkill
-from src.PlayerClass import PlayerClass
-from src.enemysClass import SkeletonMageEnemyClass
+from src.Class import HumanMageClass, SkeletonMageClass, Class
 from src.utils import getIntUser, separador, pause
 from src.status import Status
 
 
 class TurnPlayer(Turn):
-    def __init__(self, player: PlayerClass, enemy: EnemyClass) -> None:
+    def __init__(self, player: Class, enemy: Class) -> None:
         super().__init__(player, enemy)
 
-    def turn(self, player: PlayerClass, enemy: EnemyClass) -> tuple[PlayerClass, EnemyClass]:
+    def turn(self, player: Class, enemy: Class) -> tuple[Class, Class]:
         self.player = player
         self.enemy = enemy
 
@@ -29,7 +27,7 @@ class TurnPlayer(Turn):
 
         if skill is None:
             self.end_turn(relatorio)
-            return
+            return self.player, self.enemy
 
         relatorio += f'{separador}\n'
         relatorio += f"Você usou a skill {skill.name}\n"
@@ -74,24 +72,5 @@ class TurnPlayer(Turn):
             self.player.skill_list_disponivel()) - 1)
         return self.player.skill_list_disponivel()[valor]
 
-    def end_turn(self, relatorio: str) -> None:
-        relatorio += f'\n{separador}\n'
 
-        if self.enemy.status == Status.KILLED:
-            relatorio += "O Inimigo foi morto\n"
-            self.player.xp += self.enemy.xp
-            relatorio += f"Você ganhou {self.enemy.xp} de xp\n"
-            self.setInimigo(relatorio)
-        elif self.player.status == Status.KILLED:
-            relatorio += "Você morreu\n"
-            print(relatorio)
-            pause()
-            exit()
 
-        print(relatorio)
-        pause()
-
-    def setInimigo(self, relatorio: str):
-        self.enemy = SkeletonMageEnemyClass(randint(1, self.player.level))
-        relatorio += "Um novo inimigo apareceu\n"
-        relatorio += f"{self.enemy}\n"

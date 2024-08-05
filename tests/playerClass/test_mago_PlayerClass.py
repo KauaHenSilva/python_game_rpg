@@ -1,17 +1,17 @@
 import unittest
 
-from src.PlayerClass import MagoPlayerClass
+from src.Class import HumanMageClass
 from src.skills.ABC_skill import TypeSkill
 
 
 class TestMagoPlayerClass(unittest.TestCase):
     def setUp(self):
-        self.magos = [MagoPlayerClass(x) for x in range(1, 6)]
+        self.magos = [HumanMageClass(x) for x in range(1, 6)]
 
     def test_level_up(self):
         for mago in self.magos:
             level_ant = mago.level
-            mago.xp = 100 * level_ant
+            mago.xp = 100 * level_ant + 1
             if level_ant < 5:
                 self.assertEqual(level_ant + 1, mago.level)
             else:
@@ -54,7 +54,7 @@ class TestMagoPlayerClass(unittest.TestCase):
         skills_disponiveis = self.magos[0].skill_list_disponivel()
         
         self.assertEqual(2, len(skills_disponiveis))
-        self.assertEqual('Fireball', skills_disponiveis[0].name)
+        self.assertEqual('Bola de fogo', skills_disponiveis[0].name)
         self.assertEqual(1, skills_disponiveis[0].level)
 
 

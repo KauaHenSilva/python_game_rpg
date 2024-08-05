@@ -1,40 +1,60 @@
 from abc import ABC, abstractmethod
+from random import randint
 from typing import Optional
 
 from src.skills import Skill
-from src.PlayerClass import PlayerClass
-from src.enemysClass import EnemyClass
+from src.Class import Class, SkeletonMageClass, HumanMageClass, allClass
+from src.utils import separador, pause
+from src.status import Status
 
 
 class Turn(ABC):
 
     __slots__ = ['_player', '_enemy']
 
-    def __init__(self, player: PlayerClass, enemy: EnemyClass) -> None:
+    def __init__(self, player: Class, enemy: Class) -> None:
         super().__init__()
         self._player = player
         self._enemy = enemy
 
     @abstractmethod
-    def turn(self, player: PlayerClass, enemy: EnemyClass) -> tuple[PlayerClass, EnemyClass]:
+    def turn(self, player: Class, enemy: Class) -> tuple[Class, Class]:
         pass
 
     @abstractmethod
     def skill_select(self) -> tuple[int, Optional[Skill]]:
         pass
 
-    @abstractmethod
-    def end_turn(self, relatorio: str) -> None:
-        pass
-
-    @abstractmethod
     def setInimigo(self, relatorio: str):
-        pass
+        self.enemy = allClass
+        self.enemy = self.enemy[randint(0, len(self.enemy) - 1)]
+        self.enemy = self.enemy(randint(1, self.player.level + 1))
 
-    @property
+        self.enemy.set_with_enemy()
+        relatorio += "Um novo inimigo apareceu\n"
+        relatorio += f"{self.enemy}\n"
+
+    def end_turn(self, relatorio: str) -> None:
+        relatorio += f'\n{separador}\n'
+
+        if self.enemy.status == Status.KILLED:
+            relatorio += "O Inimigo foi morto\n"
+            self.player.xp += self.enemy.xp + 1
+            relatorio += f"Você ganhou {self.enemy.xp} de xp\n"
+            self.setInimigo(relatorio)
+        elif self.player.status == Status.KILLED:
+            relatorio += "Você morreu\n"
+            print(relatorio)
+            pause()
+            exit()
+
+        print(relatorio)
+        pause()
+
+    @ property
     def player(self):
         return self._player
 
-    @player.setter
+    @ player.setter
     def player(self, player):
         self._player = player

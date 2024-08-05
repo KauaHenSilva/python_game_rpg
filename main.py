@@ -1,16 +1,24 @@
-from src.PlayerClass import MagoPlayerClass
-from src.enemysClass import SkeletonMageEnemyClass
-from src.turn import TurnPlayer, TurnEnemy, TurnAll
+from random import randint
+from src.turn import TurnAll
 from src.utils import pause
 from src.status import Status
 
-player = MagoPlayerClass(1)
-enemy = SkeletonMageEnemyClass(1)
+from src.Class import HumanMageClass, SkeletonMageClass, allClass
+
+player = allClass[randint(0, len(allClass) - 1)]()
+enemy = allClass[randint(0, len(allClass) - 1)]()
 
 if __name__ == '__main__':
-    turnPlayer = TurnPlayer(player, enemy)
-    turnInimigo = TurnEnemy(player, enemy)
-    turnAll = TurnAll(player, enemy, turnPlayer, turnInimigo)
+    print("Bem vindo ao jogo\n")
+    print("O seu personagem é:")
+    print(player)
+
+    print("\nO inimigo é:")
+    print(enemy)
+
+    pause()
+
+    turnAll = TurnAll(player, enemy)
 
     while True:
         turnAll.show_stats()

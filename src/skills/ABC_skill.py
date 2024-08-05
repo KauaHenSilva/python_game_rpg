@@ -54,7 +54,7 @@ class Skill(ABC):
         value_temp = value
 
         if value_temp >= 10 * self.level:
-            value_temp = value_temp - 10
+            value_temp = value_temp - 10 * self.level
             self.upgrade()
 
         self._xp = value_temp

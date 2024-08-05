@@ -4,18 +4,17 @@ from random import randint
 from .ABC_turn import Turn
 
 from src.skills import Skill, DamageSkill, HealingSkill, TypeSkill
-from src.PlayerClass import PlayerClass
-from src.enemysClass import EnemyClass, SkeletonMageEnemyClass
 from src.utils import separador, pause
 from src.status import Status
 
+from src.Class import Class
+
 
 class TurnEnemy(Turn):
-    def __init__(self, player: PlayerClass, enemy: EnemyClass) -> None:
+    def __init__(self, player: Class, enemy: Class) -> None:
         super().__init__(player, enemy)
-        
 
-    def turn(self, player: PlayerClass, enemy: EnemyClass) -> tuple[PlayerClass, EnemyClass]:
+    def turn(self, player: Class, enemy: Class) -> tuple[Class, Class]:
         self.player = player
         self.enemy = enemy
 
@@ -72,25 +71,3 @@ class TurnEnemy(Turn):
 
         skill = self.enemy.skill_select()
         return skill
-
-    def end_turn(self, relatorio: str) -> None:
-        relatorio += f'\n{separador}\n'
-
-        if self.enemy.status == Status.KILLED:
-            relatorio += "O Inimigo foi morto\n"
-            self.player.xp += self.enemy.xp
-            relatorio += f"Você ganhou {self.enemy.xp} de xp\n"
-            self.setInimigo(relatorio)
-        elif self.player.status == Status.KILLED:
-            relatorio += "Você foi morto\n"
-            print(relatorio)
-            pause()
-            exit()
-
-        print(relatorio)
-        pause()
-
-    def setInimigo(self, relatorio: str):
-        self.enemy = SkeletonMageEnemyClass(randint(1, self.player.level))
-        relatorio += "Um novo inimigo apareceu\n"
-        relatorio += f"{self.enemy}\n"

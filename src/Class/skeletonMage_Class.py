@@ -1,16 +1,16 @@
 from random import randint
 from typing import Union
-from src.skills.ABC_skill import HealingSkill, Skill, DamageSkill
-from src.skills.fire_skill import FireSkill
-from .ABC_EnemysClass import EnemyClass
-from src.skills.ABC_skill import TypeSkill
+from src.skills import DamageSkill, TypeSkill
+from src.skills import FireSkill, DirtSkill
+from .ABC_Class import Class
 
 
-class SkeletonMageEnemyClass(EnemyClass):
-    def __init__(self, level):
-        super().__init__('Skeleton', level, 'A skeleton that will')
+class SkeletonMageClass(Class):
+    def __init__(self, level=1):
+        super().__init__('Esqueleto Mago', level, 'Um esqueleto que pratica magia')
+        self.skills = [FireSkill(1), DirtSkill(1)]
         self.setStats()
-        
+
     def damage_taken(self, damage, typeDamage: TypeSkill):
         if typeDamage == TypeSkill.FISICO:
             self.hpAtual -= damage
@@ -21,19 +21,19 @@ class SkeletonMageEnemyClass(EnemyClass):
         self.hpAtual -= life_get
 
     def setStats(self):
-        self.mpRegen = self.level * 2
+        self.hpRegen = self.level
+        self.mpRegen = 5 + self.level * 2
         self.stRegen = self.level
-        
-        self.hpMax = 50 + (self.level * 10)
-        self.mpMax = 10 + (self.level * 5)
-        self.stMax = 10 + (self.level * 5)
-        self.xp = (self.level * 100)
-        
+
+        self.hpMax = 100 + (self.level * 10) + (self.level * 2)
+        self.mpMax = 50 + (self.level * 10)
+        self.stMax = 20 + (self.level * 5)
+
         self.hpAtual = self.hpMax
         self.mpAtual = self.mpMax
         self.stAtual = self.stMax
 
-        self.skills = [FireSkill(randint(1, self.level))]
+        self.xp = (self.level * 100)
 
     def skill_cast(self, skill) -> tuple[int, Union[TypeSkill, None]]:
         if skill is None:
@@ -51,10 +51,13 @@ class SkeletonMageEnemyClass(EnemyClass):
 
         if isinstance(skill, DamageSkill):
             damage, typeSkill = skill.skill_cast()
+            
             if typeSkill == TypeSkill.MAGICO:
+                
+    
                 return int(damage), skill.typeSkill
             return int(damage * 0.5), skill.typeSkill
-        
+
         return 0, None
 
     def next_turn(self):
@@ -62,3 +65,10 @@ class SkeletonMageEnemyClass(EnemyClass):
         self.stAtual += self.stRegen
 
         print(f'{self.name} recuperou {self.mpRegen} de MP e {self.stRegen} de ST\n')
+
+    def set_with_enemy(self):
+        self.xp = self.level * 100
+        self.skills = [FireSkill(randint(1, self.level))]
+
+    def set_with_player(self):
+        self.xp = 0

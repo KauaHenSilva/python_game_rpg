@@ -1,12 +1,13 @@
+from typing import List
 import unittest
 
-from src.enemysClass import SkeletonMageEnemyClass
+from src.Class import SkeletonMageClass
 from src.skills.ABC_skill import TypeSkill
 
 
 class TestSkeletonMageEnemy(unittest.TestCase):
     def setUp(self):
-        self.enemys = [SkeletonMageEnemyClass(x) for x in range(1, 6)]
+        self.enemys: List[SkeletonMageClass] = [SkeletonMageClass(x) for x in range(1, 6)]
 
     def test_damage_taken_magico(self):
         damage = 20
@@ -30,15 +31,15 @@ class TestSkeletonMageEnemy(unittest.TestCase):
 
     def test_setStats(self):
         for enemy in self.enemys:
-            self.assertEqual(50 + (enemy.level * 10), enemy.hpMax)
-            self.assertEqual(10 + (enemy.level * 5), enemy.mpMax)
-            self.assertEqual(10 + (enemy.level * 5), enemy.stMax)
+            self.assertEqual(100 + (enemy.level * 10) + (enemy.level * 2), enemy.hpMax)
+            self.assertEqual(50 + (enemy.level * 10), enemy.mpMax)
+            self.assertEqual(20 + (enemy.level * 5), enemy.stMax)
             self.assertEqual(enemy.level * 100, enemy.xp)
     
     def test_skill(self):
         for enemy in self.enemys:
-            self.assertEqual(1, len(enemy.skills))
-            self.assertEqual('Fireball', enemy.skills[0].name)
+            self.assertEqual(2, len(enemy.skills))
+            self.assertEqual('Bola de fogo', enemy.skills[0].name)
             self.assertIn(enemy.skills[0].level, range(1, enemy.level + 1))
             
     def test_skill_return(self):
