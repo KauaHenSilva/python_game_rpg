@@ -1,7 +1,7 @@
+from random import randint
+from typing import Union
 from src.skills import FireSkill, HealSkill, TypeSkill, Skill, HealingSkill, DamageSkill
 from .ABC_Class import Class
-
-from random import randint
 
 
 class HumanMageClass(Class):
@@ -12,12 +12,18 @@ class HumanMageClass(Class):
 
     def damage_taken(self, damage, typeSkill: TypeSkill):
         if typeSkill == TypeSkill.MAGICO:
-            self.hpAtual -= int(damage / 2)
+            
+            self.hpAtual -= int(damage)
         else:
             self.hpAtual -= damage
 
-    def skill_cast(self, skill: Skill) -> tuple[int, TypeSkill]:
+    def skill_cast(self, skill: Skill) -> tuple[int, Union[TypeSkill, None]]:
+        if self.mpAtual < skill.costMP or self.stAtual < skill.costST:
+            return 0, None
+
         if (skill.typeSkill == TypeSkill.MAGICO):
+            print(f"A Classe {self.name} gasta menos MP com magia")
+            print(f"O mp gasto foi de {int(skill.costMP / 2)}")
             self.mpAtual -= int(skill.costMP / 2)
             self.stAtual -= skill.costST
         else:
@@ -27,19 +33,24 @@ class HumanMageClass(Class):
         if isinstance(skill, DamageSkill):
             damage, typeSkill = skill.skill_cast()
 
-            damage = randint(damage - 5, damage + 5)
-
             if typeSkill == TypeSkill.MAGICO:
-                return int(damage), typeSkill
+                print(f"A Classe {self.name} causa mais dano com magia")
+                print(f"O dano causado foi de {int(damage * 2)}")
+
+                return int(damage * 2), typeSkill
+
+            print(f"A Classe {self.name} causa menos dano com fisico")
+            print(f"O dano causado foi de {int(damage / 2)}")
             return int(damage / 2), typeSkill
 
         if isinstance(skill, HealingSkill):
             heal, typeSkill = skill.skill_cast()
 
-            heal = randint(heal - 5, heal + 5)
-
             if typeSkill == TypeSkill.MAGICO:
                 return int(heal), typeSkill
+
+            print(f"A Classe {self.name} cura menos com fisico")
+            print(f"O dano causado foi de {int(heal / 2)}")
             return int(heal / 2), typeSkill
 
         return 0, TypeSkill.MAGICO
@@ -56,8 +67,6 @@ class HumanMageClass(Class):
         self.hpAtual = self.hpMax
         self.mpAtual = self.mpMax
         self.stAtual = self.stMax
-
-        self.xp = (self.level * 100)
 
     def life_get(self, life_get):
         self.hpAtual += life_get

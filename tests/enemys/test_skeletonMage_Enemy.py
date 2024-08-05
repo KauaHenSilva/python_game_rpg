@@ -34,7 +34,6 @@ class TestSkeletonMageEnemy(unittest.TestCase):
             self.assertEqual(100 + (enemy.level * 10) + (enemy.level * 2), enemy.hpMax)
             self.assertEqual(50 + (enemy.level * 10), enemy.mpMax)
             self.assertEqual(20 + (enemy.level * 5), enemy.stMax)
-            self.assertEqual(enemy.level * 100, enemy.xp)
     
     def test_skill(self):
         for enemy in self.enemys:

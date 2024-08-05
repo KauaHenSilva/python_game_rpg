@@ -24,6 +24,8 @@ class TurnPlayer(Turn):
         relatorio: str = f'\n{separador}\nRelatório:\n\n'
 
         skill = self.skill_select()
+        
+        print(f"\n{separador}")
 
         if skill is None:
             self.end_turn(relatorio)

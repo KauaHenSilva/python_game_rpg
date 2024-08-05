@@ -21,10 +21,10 @@ class Class(ABC):
         self._level: int = level
         self._descricao: str = descricao
 
-        self._xp: int = 10
-        self._hpMax: int = 100
-        self._mpMax: int = 50
-        self._stMax: int = 50
+        self._xp: int = 0
+        self._hpMax: int = 0
+        self._mpMax: int = 0
+        self._stMax: int = 0
 
         self._hpRegen: int = 5
         self._mpRegen: int = 5
@@ -163,6 +163,7 @@ class Class(ABC):
             return
         
         if value > self.level * 100:
+            print(f"P {self.name} subiu de level")
             self._xp = value - (self.level * 100) - 1
             self.level += 1
             return
@@ -181,6 +182,10 @@ class Class(ABC):
         if value <= 0:
             self._status = Status.KILLED
             self._hpAtual = 0
+            return
+        
+        if value > self.hpMax:
+            self._hpAtual = self.hpMax
             return
 
         self._hpAtual = value
@@ -215,6 +220,10 @@ class Class(ABC):
 
         if value < 0:
             print("ST não pode ser negativo")
+            return
+        
+        if value > self.stMax:
+            self._stAtual = self.stMax
             return
 
         self._stAtual = value

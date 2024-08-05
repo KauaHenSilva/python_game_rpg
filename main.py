@@ -10,12 +10,16 @@ enemy = allClass[randint(0, len(allClass) - 1)]()
 
 if __name__ == '__main__':
     print("Bem vindo ao jogo\n")
-    print("O seu personagem é:")
-    print(player)
-
-    print("\nO inimigo é:")
-    print(enemy)
-
+    
+    print("Classes Sorteadas:\n")
+    
+    if(randint(0, 1)):
+        print(player)
+        print(enemy)
+    else:
+        print(enemy)
+        print(player)
+        
     pause()
 
     turnAll = TurnAll(player, enemy)

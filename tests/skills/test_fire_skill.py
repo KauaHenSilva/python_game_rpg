@@ -19,14 +19,14 @@ class TestFireSkill(unittest.TestCase):
     def test_setStats(self):
         self.fire_skill.setStats()
         self.assertEqual(5, self.fire_skill.costMP)
-        self.assertEqual(12, self.fire_skill.damage)
+        self.assertEqual(10, self.fire_skill.damage)
 
     def test_skill_cast(self):
         mpAtual = 10
         stAtual = 10
 
         damage, typeSkill = self.fire_skill.skill_cast()
-        self.assertEqual(12, damage)
+        self.assertEqual(10, damage)
         self.assertEqual(TypeSkill.MAGICO, typeSkill)
         self.assertEqual(1, self.fire_skill.level)
         self.assertEqual(5, mpAtual - self.fire_skill.costMP)

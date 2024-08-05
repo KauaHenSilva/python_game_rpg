@@ -16,7 +16,7 @@ class WatherSkill(DamageSkill):
         self.setStats()
 
     def setStats(self):
-        self.costMP = self.level * 7
+        self.costMP = self.level * 17
         self.damage = self.level * 15
 
     def skill_cast(self) -> tuple[int, TypeSkill]:

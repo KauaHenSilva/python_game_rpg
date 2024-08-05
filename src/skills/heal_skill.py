@@ -15,7 +15,7 @@ class HealSkill(HealingSkill):
         self.setStats()
 
     def setStats(self):
-        self.costMP = self.level * 5
+        self.costMP = self.level * 20
         self.healing = self.level * 10
 
     def skill_cast(self) -> tuple[int, TypeSkill]:

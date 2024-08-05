@@ -16,8 +16,8 @@ class DirtSkill(DamageSkill):
         self.setStats()
 
     def setStats(self):
-        self.costMP = self.level * 5
-        self.damage = self.level * 10
+        self.costMP = self.level * 17
+        self.damage = self.level * 12
 
     def skill_cast(self) -> tuple[int, TypeSkill]:
         self.xp += 1

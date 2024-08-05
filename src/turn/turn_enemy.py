@@ -19,15 +19,16 @@ class TurnEnemy(Turn):
         self.enemy = enemy
 
         print("Turno do Inimigo\n")
-        print(f"{separador}\n")
 
         relatorio: str = 'Relatório:\n\n'
 
         skill = self.skill_select()
 
+        print(f"\n{separador}")
+
         if skill is None:
             self.end_turn(relatorio)
-            return
+            return self.player, self.enemy
 
         relatorio += f'{separador}\n'
         relatorio += f"O inimigo usou a skill {skill.name}\n"
@@ -51,6 +52,7 @@ class TurnEnemy(Turn):
             self.enemy.life_get(heal)
             relatorio += f"Vida do inimigo após a cura: {self.enemy.hpAtual}\n"
 
+        print(f"\n{separador}")
         self.end_turn(relatorio)
 
         return self.player, self.enemy

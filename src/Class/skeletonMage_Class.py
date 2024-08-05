@@ -15,6 +15,8 @@ class SkeletonMageClass(Class):
         if typeDamage == TypeSkill.FISICO:
             self.hpAtual -= damage
         elif typeDamage == TypeSkill.MAGICO:
+            print(f"A Classe {self.name} recebe menos dano com magia")
+            print(f"O dano recebido foi de {int(damage / 2)}")
             self.hpAtual -= int(damage * 0.5)
 
     def life_get(self, life_get):
@@ -33,8 +35,6 @@ class SkeletonMageClass(Class):
         self.mpAtual = self.mpMax
         self.stAtual = self.stMax
 
-        self.xp = (self.level * 100)
-
     def skill_cast(self, skill) -> tuple[int, Union[TypeSkill, None]]:
         if skill is None:
             raise ValueError("Skill não pode ser None")
@@ -43,6 +43,9 @@ class SkeletonMageClass(Class):
             return 0, None
 
         if skill.typeSkill == TypeSkill.MAGICO:
+            print(f"A Classe {self.name} gasta menos MP com magia")
+            print(f"O mp gasto foi de {int(skill.costMP / 2)}")
+
             self.mpAtual -= int(skill.costMP / 2)
             self.stAtual -= skill.costST
         else:
@@ -51,11 +54,14 @@ class SkeletonMageClass(Class):
 
         if isinstance(skill, DamageSkill):
             damage, typeSkill = skill.skill_cast()
-            
+
             if typeSkill == TypeSkill.MAGICO:
-                
-    
-                return int(damage), skill.typeSkill
+                print(f"A Classe {self.name} causa mais dano com magia")
+                print(f"O dano causado foi de {int(damage * 2)}")
+                return int(damage * 2), skill.typeSkill
+
+            print(f"A Classe {self.name} causa menos dano com fisico")
+            print(f"O dano causado foi de {int(damage / 2)}")
             return int(damage * 0.5), skill.typeSkill
 
         return 0, None

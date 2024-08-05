@@ -53,8 +53,9 @@ class Skill(ABC):
 
         value_temp = value
 
-        if value_temp >= 10 * self.level:
-            value_temp = value_temp - 10 * self.level
+        if value_temp >= 10:
+            print(f"A skill {self.name} subiu de nível")
+            value_temp = value_temp - 10
             self.upgrade()
 
         self._xp = value_temp

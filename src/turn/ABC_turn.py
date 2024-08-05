@@ -28,7 +28,7 @@ class Turn(ABC):
     def setInimigo(self, relatorio: str):
         self.enemy = allClass
         self.enemy = self.enemy[randint(0, len(self.enemy) - 1)]
-        self.enemy = self.enemy(randint(1, self.player.level + 1))
+        self.enemy = self.enemy(randint(1, self.player.level))
 
         self.enemy.set_with_enemy()
         relatorio += "Um novo inimigo apareceu\n"

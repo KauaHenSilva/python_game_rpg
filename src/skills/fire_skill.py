@@ -16,8 +16,8 @@ class FireSkill(DamageSkill):
         self.setStats()
 
     def setStats(self):
-        self.costMP = self.level * 5
-        self.damage = self.level * 12
+        self.costMP = self.level * 15
+        self.damage = self.level * 10
 
     def skill_cast(self) -> tuple[int, TypeSkill]:
         self.xp += 1
