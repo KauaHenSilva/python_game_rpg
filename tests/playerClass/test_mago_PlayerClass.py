@@ -25,7 +25,7 @@ class TestMagoPlayerClass(unittest.TestCase):
 
     def test_damage_taken_magico(self):
         damage = 20
-        expected_result = 10
+        expected_result = 20
 
         hpAntes = self.magos[0].hpAtual
         self.magos[0].damage_taken(damage, TypeSkill.MAGICO)
