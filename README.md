@@ -10,7 +10,7 @@ Contributions are welcome! To contribute, favorite the project and give your opi
 
 Help improve the project! Fork it and develop your creativity!
 
->https://github.com/KauaHenSilva/Breadcrumbspython_game_rpg
+>https://github.com/KauaHenSilva/python_game_rpg
 
 
 ### 🚀 init
